@@ -26,14 +26,13 @@ namespace org.apache.zookeeper
     /// ZooKeeper Base Exception
     /// </summary>
     public abstract class KeeperException : Exception
-﻿    {
-/**
-     * All multi-requests that result in an exception retain the results
-     * here so that it is possible to examine the problems in the catch
-     * scope.  Non-multi requests will get a null if they try to access
-     * these results.
-     */
-         private List<OpResult> results;
+    {
+        /// <summary>
+        /// All multi-requests that result in an exception retain the results
+        /// here so that it is possible to examine the problems in the catch
+        /// scope.Non-multi requests will get a null if they try to access these results.
+        /// </summary>
+        private List<OpResult> results;
 ﻿        /**
      * All non-specific keeper exceptions should be constructed via
      * this factory method in order to guarantee consistency in error
@@ -49,7 +48,7 @@ namespace org.apache.zookeeper
      * the caller.
      */
 
-         internal static KeeperException create(int code, string path = null)
+        public static KeeperException create(int code, string path = null)
 ﻿        {
 ﻿            switch (EnumUtil<Code>.DefinedCast(code))
 ﻿            {
@@ -99,18 +98,15 @@ namespace org.apache.zookeeper
 ﻿                default:
 ﻿                    throw new ArgumentOutOfRangeException("code", "Invalid exception code");
 ﻿            }
-﻿        }
-
-﻿        
-﻿        
-
-﻿        /** Codes which represent the various KeeperException
-         * types. This enum replaces the deprecated earlier static final int
-         * constants. The old, deprecated, values are in "camel case" while the new
-         * enum values are in all CAPS.
-         */
-
-         internal enum Code
+        }
+              
+﻿        /// <summary>
+        /// Codes which represent the various KeeperException
+        /// types.This enum replaces the deprecated earlier static final int
+        /// constants.The old, deprecated, values are in "camel case" while the new 
+        /// enum values are in all CAPS.
+        /// </summary>
+        public enum Code
 ﻿        {
 ﻿            /** Everything is OK */
 ﻿            OK = 0,
@@ -176,6 +172,7 @@ namespace org.apache.zookeeper
 		private readonly Code code;
 
 ﻿        private readonly string path;
+
 ﻿        private KeeperException(Code code)
 ﻿        {
 ﻿            this.code = code;
@@ -185,49 +182,52 @@ namespace org.apache.zookeeper
 ﻿        {
 ﻿            this.code = code;
 ﻿            this.path = path;
-﻿        }
+        }
 
-﻿        /**
-     * Read the error Code for this exception
-     * @return the error Code for this exception
-     */
+        /// <summary>
+        /// Read the error Code for this exception
+        /// </summary>
+        /// <returns>the error Code for this exception</returns>
+        public Code getCode()
+        {
+            return code;
+        }
 
-         internal Code getCode() {
-        return code;
-    }
+        /// <summary>
+        /// Read the path for this exception
+        /// </summary>
+        /// <returns>the path associated with this error, null if none</returns>
+        public string getPath()
+        {
+            return path;
+        }
 
-    /**
-     * Read the path for this exception
-     * @return the path associated with this error, null if none
-     */
+        internal void setMultiResults(List<OpResult> res)
+        {
+            results = res;
+        }
 
-         internal string getPath() {
-        return path;
-    }
-
-         internal void setMultiResults(List<OpResult> res) {
-        results = res;
-    }
-
-    /**
-     * If this exception was thrown by a multi-request then the (partial) results
-     * and error codes can be retrieved using this getter.
-     * @return A copy of the list of results from the operations in the multi-request.
-     * 
-     * @since 3.4.0
-     *
-     */
-
-         internal List<OpResult> getResults() {
-             return results != null ? new List<OpResult>(results) : null;
-         }
+        /// <summary>
+        /// If this exception was thrown by a multi-request then the (partial) results
+        /// and error codes can be retrieved using this getter.
+        /// </summary>
+        /// <returns>A copy of the list of results from the operations in the multi-request.</returns>
+        public List<OpResult> getResults()
+        {
+            return results != null 
+                    ? new List<OpResult>(results) 
+                    : null;
+        }
 
         /// <summary>
         /// <see cref="Code.AUTHFAILED"/>
         /// </summary>
         public class AuthFailedException : KeeperException
 ﻿        {
-﻿            internal AuthFailedException()
+            /// <summary>
+            /// Create an instance of <see cref="AuthFailedException"/>
+            /// </summary>
+            public AuthFailedException()
 ﻿                : base(Code.AUTHFAILED)
 ﻿            {
 ﻿            }
@@ -238,7 +238,11 @@ namespace org.apache.zookeeper
         /// </summary>
         public class BadArgumentsException : KeeperException
 ﻿        {
-﻿            internal BadArgumentsException(string path)
+            /// <summary>
+            /// Create an instance of <see cref="BadArgumentsException"/>
+            /// </summary>
+            /// <param name="path"></param>
+            public BadArgumentsException(string path)
 ﻿                : base(Code.BADARGUMENTS, path)
 ﻿            {
 ﻿            }
@@ -249,7 +253,11 @@ namespace org.apache.zookeeper
         /// </summary>
         public class BadVersionException : KeeperException
 ﻿        {
-﻿            internal BadVersionException(string path)
+            /// <summary>
+            /// Create an instance of <see cref="BadVersionException"/>
+            /// </summary>
+            /// <param name="path"></param>
+            public BadVersionException(string path)
 ﻿                : base(Code.BADVERSION, path)
 ﻿            {
 ﻿            }
@@ -260,7 +268,10 @@ namespace org.apache.zookeeper
         /// </summary>
         public class ConnectionLossException : KeeperException
 ﻿        {
-﻿            internal ConnectionLossException()
+            /// <summary>
+            /// Create an instance of <see cref="ConnectionLossException"/>
+            /// </summary>
+            public ConnectionLossException()
 ﻿                : base(Code.CONNECTIONLOSS)
 ﻿            {
 ﻿            }
@@ -271,7 +282,10 @@ namespace org.apache.zookeeper
         /// </summary>
         public class DataInconsistencyException : KeeperException
 ﻿        {
-﻿            internal DataInconsistencyException()
+            /// <summary>
+            /// Create an instance of <see cref="DataInconsistencyException"/>
+            /// </summary>
+            public DataInconsistencyException()
 ﻿                : base(Code.DATAINCONSISTENCY)
 ﻿            {
 ﻿            }
@@ -282,12 +296,19 @@ namespace org.apache.zookeeper
         /// </summary>
         public class InvalidACLException : KeeperException
 ﻿        {
-﻿            internal InvalidACLException()
+            /// <summary>
+            /// Create an instance of <see cref="InvalidACLException"/>
+            /// </summary>
+            public InvalidACLException()
 ﻿                : base(Code.INVALIDACL)
 ﻿            {
 ﻿            }
 
-﻿            internal InvalidACLException(string path)
+            /// <summary>
+            /// Create an instance of <see cref="InvalidACLException"/>
+            /// </summary>
+            /// <param name="path"></param>
+            public InvalidACLException(string path)
 ﻿                : base(Code.INVALIDACL, path)
 ﻿            {
 ﻿            }
@@ -298,7 +319,10 @@ namespace org.apache.zookeeper
         /// </summary>
         public class InvalidCallbackException : KeeperException
 ﻿        {
-﻿            internal InvalidCallbackException()
+            /// <summary>
+            /// Create an instance of <see cref="InvalidCallbackException"/>
+            /// </summary>
+            public InvalidCallbackException()
 ﻿                : base(Code.INVALIDCALLBACK)
 ﻿            {
 ﻿            }
@@ -309,7 +333,10 @@ namespace org.apache.zookeeper
         /// </summary>
         public class MarshallingErrorException : KeeperException
 ﻿        {
-﻿            internal MarshallingErrorException()
+            /// <summary>
+            /// Create an instance of <see cref="MarshallingErrorException"/>
+            /// </summary>
+            public MarshallingErrorException()
 ﻿                : base(Code.MARSHALLINGERROR)
 ﻿            {
 ﻿            }
@@ -320,7 +347,10 @@ namespace org.apache.zookeeper
         /// </summary>
         public class NoAuthException : KeeperException
 ﻿        {
-﻿            internal NoAuthException()
+            /// <summary>
+            /// Create an instance of <see cref="NoAuthException"/>
+            /// </summary>
+            public NoAuthException()
 ﻿                : base(Code.NOAUTH)
 ﻿            {
 ﻿            }
@@ -331,7 +361,11 @@ namespace org.apache.zookeeper
         /// </summary>
         public class NoChildrenForEphemeralsException : KeeperException
 ﻿        {
-﻿            internal NoChildrenForEphemeralsException(string path)
+            /// <summary>
+            /// Create an instance of <see cref="NoChildrenForEphemeralsException"/>
+            /// </summary>
+            /// <param name="path"></param>
+            public NoChildrenForEphemeralsException(string path)
 ﻿                : base(Code.NOCHILDRENFOREPHEMERALS, path)
 ﻿            {
 ﻿            }
@@ -343,7 +377,11 @@ namespace org.apache.zookeeper
 
         public class NodeExistsException : KeeperException
 ﻿        {
-﻿            internal NodeExistsException(string path)
+            /// <summary>
+            /// Create an instance of <see cref="NodeExistsException"/>
+            /// </summary>
+            /// <param name="path"></param>
+            public NodeExistsException(string path)
 ﻿                : base(Code.NODEEXISTS, path)
 ﻿            {
 ﻿            }
@@ -354,7 +392,11 @@ namespace org.apache.zookeeper
         /// </summary>
         public class NoNodeException : KeeperException
 ﻿        {
-﻿            internal NoNodeException(string path)
+            /// <summary>
+            /// Create an instance of <see cref="NoNodeException"/>
+            /// </summary>
+            /// <param name="path"></param>
+            public NoNodeException(string path)
 ﻿                : base(Code.NONODE, path)
 ﻿            {
 ﻿            }
@@ -365,7 +407,11 @@ namespace org.apache.zookeeper
         /// </summary>
         public class NotEmptyException : KeeperException
 ﻿        {
-﻿            internal NotEmptyException(string path)
+            /// <summary>
+            /// Create an instance of <see cref="NotEmptyException"/>
+            /// </summary>
+            /// <param name="path"></param>
+            public NotEmptyException(string path)
 ﻿                : base(Code.NOTEMPTY, path)
 ﻿            {
 ﻿            }
@@ -376,7 +422,10 @@ namespace org.apache.zookeeper
         /// </summary>
         public class OperationTimeoutException : KeeperException
 ﻿        {
-﻿            internal OperationTimeoutException()
+            /// <summary>
+            /// Create an instance of <see cref="OperationTimeoutException"/>
+            /// </summary>
+            public OperationTimeoutException()
 ﻿                : base(Code.OPERATIONTIMEOUT)
 ﻿            {
 ﻿            }
@@ -387,7 +436,10 @@ namespace org.apache.zookeeper
         /// </summary>
         public class RuntimeInconsistencyException : KeeperException
 ﻿        {
-﻿            internal RuntimeInconsistencyException()
+            /// <summary>
+            /// Create an instance of <see cref="RuntimeInconsistencyException"/>
+            /// </summary>
+            public RuntimeInconsistencyException()
 ﻿                : base(Code.RUNTIMEINCONSISTENCY)
 ﻿            {
 ﻿            }
@@ -398,7 +450,10 @@ namespace org.apache.zookeeper
         /// </summary>
         public class SessionExpiredException : KeeperException
 ﻿        {
-﻿            internal SessionExpiredException()
+            /// <summary>
+            /// Create an instance of <see cref="SessionExpiredException"/>
+            /// </summary>
+            public SessionExpiredException()
 ﻿                : base(Code.SESSIONEXPIRED)
 ﻿            {
 ﻿            }
@@ -409,7 +464,10 @@ namespace org.apache.zookeeper
         /// </summary>
         public class SessionMovedException : KeeperException
 ﻿        {
-﻿            internal SessionMovedException()
+            /// <summary>
+            /// Create an instance of <see cref="SessionMovedException"/>
+            /// </summary>
+            public SessionMovedException()
 ﻿                : base(Code.SESSIONMOVED)
 ﻿            {
 ﻿            }
@@ -420,7 +478,10 @@ namespace org.apache.zookeeper
         /// </summary>
         public class NotReadOnlyException : KeeperException
 ﻿        {
-﻿            internal NotReadOnlyException() : base(Code.NOTREADONLY)
+            /// <summary>
+            /// Create an instance of <see cref="NotReadOnlyException"/>
+            /// </summary>
+            public NotReadOnlyException() : base(Code.NOTREADONLY)
 ﻿            {
 ﻿            }
 ﻿        }
@@ -430,7 +491,10 @@ namespace org.apache.zookeeper
         /// </summary>
         public class UnimplementedException : KeeperException
 ﻿        {
-﻿            internal UnimplementedException()
+            /// <summary>
+            /// Create an instance of <see cref="UnimplementedException"/>
+            /// </summary>
+            public UnimplementedException()
 ﻿                : base(Code.UNIMPLEMENTED)
 ﻿            {
 ﻿            }

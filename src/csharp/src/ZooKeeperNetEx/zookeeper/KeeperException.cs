@@ -33,21 +33,25 @@ namespace org.apache.zookeeper
         /// scope.Non-multi requests will get a null if they try to access these results.
         /// </summary>
         private List<OpResult> results;
-﻿        /**
-     * All non-specific keeper exceptions should be constructed via
-     * this factory method in order to guarantee consistency in error
-     * codes and such.  If you know the error code, then you should
-     * construct the special purpose exception directly.  That will
-     * allow you to have the most specific possible declarations of
-     * what exceptions might actually be thrown.
-     *
-     * @param code The error code of your new exception.  This will
-     * also determine the specific type of the exception that is
-     * returned.
-     * @return The specialized exception, presumably to be thrown by
-     * the caller.
-     */
 
+        /// <summary>
+        /// Factory method to create an instance of <see cref="KeeperException"/> 
+        /// according to passed Zookeeper error code and znode path(for which error happend).
+        /// All non-specific keeper exceptions should be constructed via 
+        /// this factory method in order to guarantee consistency in error
+        /// codes and such.If you know the error code, then you should
+        /// construct the special purpose exception directly.That will
+        /// allow you to have the most specific possible declarations of
+        /// what exceptions might actually be thrown.
+        /// @param code The error code of your new exception.This will 
+        /// also determine the specific type of the exception that is
+        /// returned.
+        /// @return The specialized exception, presumably to be thrown by
+        /// the caller.
+        /// </summary>
+        /// <param name="code">Zookeeper error code(see <see cref="KeeperException.Code"/> enum)</param>
+        /// <param name="path">Znode path for which error happend</param>
+        /// <returns></returns>
         public static KeeperException create(int code, string path = null)
 ﻿        {
 ﻿            switch (EnumUtil<Code>.DefinedCast(code))

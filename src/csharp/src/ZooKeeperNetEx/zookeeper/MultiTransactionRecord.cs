@@ -30,7 +30,7 @@ namespace org.apache.zookeeper {
     /// the type of the following transaction or a negative number if no more transactions
     /// are included.
     /// </summary>
-    internal class MultiTransactionRecord : Record, IEnumerable<Op> {
+    public class MultiTransactionRecord : Record, IEnumerable<Op> {
         private readonly List<Op> ops;
 
         public MultiTransactionRecord() { ops=new List<Op>();}
@@ -43,7 +43,7 @@ namespace org.apache.zookeeper {
             return ops.GetEnumerator();
         }
 
-        internal void add(Op op) {
+        public void add(Op op) {
             ops.Add(op);
         }
 

@@ -7,6 +7,10 @@ namespace org.apache.zookeeper
     /// <summary/>
     public static class ZooDefs
     {
+        /// <summary>
+        /// Zookeeper configuration node
+        /// </summary>
+        public const string CONFIG_NODE = "/zookeeper/config";
         internal enum OpCode
         {
             //Notification = 0, Used by server
@@ -23,9 +27,16 @@ namespace org.apache.zookeeper
             getChildren2 = 12,
             check = 13,
             multi = 14,
+            create2 = 15,
+            reconfig = 16,
+            checkWatches = 17,
+            removeWatches = 18,
+            createContainer = 19,
+            deleteContainer = 20,
+            createTTL = 21,
             auth = 100,
             setWatches = 101,
-            //CreateSession = -10, Used by server
+            //createSession = -10, Used by server
             closeSession = -11,
             error = -1,
         }

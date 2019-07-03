@@ -224,7 +224,7 @@ namespace org.apache.zookeeper.recipes.leader {
             leaderOffer = new LeaderOffer();
 
             leaderOffer.HostName = HostName;
-            leaderOffer.NodePath = await ZooKeeper.createAsync(RootNodeName + "/" + "n_", HostName.UTF8getBytes(),
+            leaderOffer.NodePath = await ZooKeeper.createAsync(RootNodeName + "_", HostName.UTF8getBytes(),
                 ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL).ConfigureAwait(false);
 
             logger.debugFormat("Created leader offer {0}", leaderOffer);

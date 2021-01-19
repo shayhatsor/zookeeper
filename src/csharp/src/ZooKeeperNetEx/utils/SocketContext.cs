@@ -74,7 +74,7 @@ namespace ZooKeeperNetEx.utils
 
             var socketAsyncEventArgs = _socketAsyncEventArgs; 
 
-            if (socketAsyncEventArgs.LastOperation == SocketAsyncOperation.Receive && _socket.Available == 0)
+            if (socketAsyncEventArgs.LastOperation == SocketAsyncOperation.Receive && _socket.Available == 0 && _socket.Poll(1000, SelectMode.SelectRead))
             {
                 socketAsyncEventArgs.SocketError = SocketError.ConnectionReset;
             }
